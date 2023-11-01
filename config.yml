@@ -1,0 +1,9 @@
+triangles_mesh_path: './jupyter_nb/full_sparse_bunny.ply'
+
+hole_detection:
+  calculate_relations: True
+  show_singular_vertices: True
+
+visualizer: 
+  show_all_boundaries: True
+  show_relations: False
