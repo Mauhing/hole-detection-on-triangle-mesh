@@ -161,21 +161,22 @@ def visualize_one_by_one(list_of_regions, mesh):
         local_mesh = copy.deepcopy(mesh)
         local_mesh.triangles = o3d.utility.Vector3iVector(main_triangles)
         local_mesh.compute_vertex_normals()
-        geoms = [local_mesh]
-        #geoms.append(o3d.geometry.TriangleMesh.create_coordinate_frame())
-
-        for boundary in boundaries:
-            boundary_ = o3d.utility.Vector2iVector(boundary.edges)
-            geoms.append(edges_to_lineset(
-                mesh, boundary_, boundary.colors()))
-        o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
-
+        
         geoms = []
         for boundary in boundaries:
             boundary_ = o3d.utility.Vector2iVector(boundary.edges)
             #geoms.append(hole_pose(boundary))
             geoms.append(edges_to_lineset(
                 mesh, boundary_, boundary.colors()))
+        print(f'Coastline number {index +1}')
+        o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
+
+        geoms = [local_mesh]
+        for boundary in boundaries:
+            boundary_ = o3d.utility.Vector2iVector(boundary.edges)
+            geoms.append(edges_to_lineset(
+                mesh, boundary_, boundary.colors()))
+        print(f'The continent of coastline number {index +1}')
         o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
 
         geoms = []
@@ -183,6 +184,7 @@ def visualize_one_by_one(list_of_regions, mesh):
             boundary_ = o3d.utility.Vector2iVector(boundary.edges)
             geoms.append(edges_to_lineset(
                 mesh, boundary_, boundary.colors()))
+        print(f"The tide-hole(s) with of coastline number {index +1}")
         o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
 
         geoms = []
@@ -190,8 +192,10 @@ def visualize_one_by_one(list_of_regions, mesh):
             boundary_ = o3d.utility.Vector2iVector(boundary.edges)
             geoms.append(edges_to_lineset(
                 mesh, boundary_, boundary.colors()))
+        print(f"The lake-hole(s) with of coastline number {index + 1}")
         o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
         if index == 2:
+            print('Break, we only show the first three')
             break
     
 
@@ -218,5 +222,4 @@ if __name__ == "__main__":
     if show_relations:
         json_file_path = Path('./result_boundaries_and_holes.json')
         list_of_regions = load_json_data(json_file_path)
-        visualize_one_by_one(list_of_regions, mesh)
- 
+        visualize_one_by_one(list_of_regions, mesh) 
