@@ -388,7 +388,7 @@ def pop_neighbour_triangles(inquiry_triangle: np.ndarray, remain_triangles: np.n
     return neighbour_triangles, remain_triangles
 
 
-def save_boundaries_as_json(holes: List[Boundary], vertices, normals):
+def save_boundaries_as_json(holes: List[Boundary], vertices, normals, save_single_path):
     holes_list = list()
     for index, hole in enumerate(holes):
         hole_vertices = hole.vertices
@@ -401,7 +401,7 @@ def save_boundaries_as_json(holes: List[Boundary], vertices, normals):
                  }
         holes_list.append(dict_)
 
-    hole_file = './result_all_boundaries.json'
+    hole_file = save_single_path
     with open(hole_file, 'w') as f:
         json.dump(holes_list, f)
     print(f'Simple boundaries saved: {hole_file}')
@@ -487,8 +487,8 @@ def __save_point_cloud_previous(list_of_messages, project_name: str):
         print("saved in JSON file as " + str(json_path))
 
 
-def __save_point_cloud(list_of_messages):
-    path = './result_boundaries_and_holes.json'
+def __save_point_cloud(list_of_messages, save_relation_path:str):
+    path = save_relation_path
     with open(path, 'w') as f:
         json.dump(list_of_messages, f)
         print("Relation saved in JSON file as " +path)
@@ -506,7 +506,7 @@ def number_single_boundaries_has_singular(boundaries: List[Boundary], singular_v
     print(f'Ratio {count/len(boundaries)}')
 
 
-def construct_boundaries_from_mesh(mesh, visualization = False, relation=False):
+def construct_boundaries_from_mesh(mesh, visualization = False, relation=False, save_single_path="", save_relation_path=""):
 
     #mesh = o3d.io.read_triangle_mesh(str(mesh_path))
 
@@ -530,8 +530,8 @@ def construct_boundaries_from_mesh(mesh, visualization = False, relation=False):
     remaining_boundaries_ordered = all_boundaries_ordered  # init while loop
     #print('Decomposing boundaries')
     remaining_boundaries_ordered = decompose_circuit_to_circles_all(remaining_boundaries_ordered)
+    all_single_boundaries = copy.copy(remaining_boundaries_ordered)
 
-    save_boundaries_as_json(remaining_boundaries_ordered, vertices, normals)
     #number_single_boundaries_has_singular(remaining_boundaries_ordered, nm_vertices)
 
     main_boundaries_list = list()
@@ -540,7 +540,7 @@ def construct_boundaries_from_mesh(mesh, visualization = False, relation=False):
     main_triangles_list = list()
     
     #print(f'Total boundaries {len(remaining_boundaries_ordered)}')
-
+    dict_ = None
     if relation:
         print('Calculating relations')
         while len(remaining_boundaries_ordered) > 0:
@@ -570,14 +570,23 @@ def construct_boundaries_from_mesh(mesh, visualization = False, relation=False):
         dict_ = create_dict_boundary_and_holes(main_boundaries_list, tide_pool_holes_list, lake_holes_list, main_triangles_list,
                                             locations, normals)
 
-        __save_point_cloud(dict_)
+
+    if save_single_path != "": 
+        save_boundaries_as_json(all_single_boundaries, vertices, normals, save_single_path)
+    if save_relation_path !="":
+        __save_point_cloud(dict_, save_relation_path) 
+    return all_boundaries_ordered, dict_
 
 
 # %%
 if __name__ == "__main__": 
     config = load_config('./config.yml') 
-    relations = config['hole_detection']['calculate_relations']
+    relation = config['hole_detection']['calculate_relation']
     visualization = config['hole_detection']['show_singular_vertices']
 
+    hole_file = './result_all_boundaries.json'
+    save_relation_path = ""
+    if relation:
+        save_relation_path = './result_boundaries_and_holes.json'
     mesh = o3d.io.read_triangle_mesh(config['triangles_mesh_path'])
-    construct_boundaries_from_mesh(mesh, visualization = visualization, relation=relations)
+    construct_boundaries_from_mesh(mesh, visualization = False, relation=relation, save_single_path=hole_file, save_relation_path=save_relation_path)
