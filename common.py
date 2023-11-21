@@ -58,6 +58,7 @@ class Boundary:
         return cls(np.array(list_of_edges), ordered=True)
 
 def edges_to_lineset(mesh, edges, color):
+    # From Open3D: www.open3d.org
     ls = o3d.geometry.LineSet()
     ls.points = mesh.vertices
     ls.lines = edges

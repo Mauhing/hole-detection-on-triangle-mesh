@@ -1,5 +1,4 @@
-triangles_mesh_path: './jupyter_nb/full_sparse_bunny.ply'
-#triangles_mesh_path: '/home/mhyip/Works/07_extract_mbes/mbes_data/airplane/airplane_bpa.ply'
+triangles_mesh_path: './sample/patch_of_bunny.ply'
 
 hole_detection:
   calculate_relation: True
