@@ -1,7 +1,7 @@
 # hole-detection
 
 ## requirements
-`pip install numpy`
+`pip install numpy`  
 `pip install open3d`
 
 ## To use
@@ -11,4 +11,4 @@
 4. Use `main_visualizer.py` to visualizer detected boundareis and holes.
 
 ## Sample.
-The sample data a corpped version of the bunny data in Open3D, aka the Stanford bunny mesh.
+The sample data a cropped version of the bunny data in Open3D, aka the Stanford bunny mesh.
