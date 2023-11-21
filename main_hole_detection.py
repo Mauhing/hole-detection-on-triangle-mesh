@@ -5,9 +5,7 @@ import os
 import json
 import numpy as np
 import open3d as o3d
-from mpl_toolkits import mplot3d
 from pathlib import Path
-import matplotlib.pyplot as plt
 from typing import List
 from common import load_config, Boundary, create_folder
 

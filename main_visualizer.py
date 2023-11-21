@@ -1,12 +1,8 @@
-from array import array
 from copy import deepcopy
 from tkinter import W
 import numpy as np
 import json
-import yaml
 import copy
-import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
 from pathlib import Path
 from typing import List
 import open3d as o3d
