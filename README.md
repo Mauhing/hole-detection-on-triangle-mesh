@@ -12,3 +12,5 @@
 
 ## Sample
 The sample data a cropped version of the bunny data in Open3D, aka the Stanford bunny mesh.
+
+The detail of the method is discribed in https://arxiv.org/abs/2311.12466.
