@@ -264,8 +264,8 @@ def construct_boundaries_from_nm_edges(edges, mesh, visualization=False):
         colors = boundary.colors()
         boundary = o3d.utility.Vector2iVector(np.asarray(boundary))
         geoms.append(edges_to_lineset(mesh, boundary, colors))
-    if visualization:
-        print("Show different boundary with different color.")
+    #if visualization:
+        #print("Show different boundary with different color.")
         #o3d.visualization.draw_geometries(geoms, mesh_show_back_face=True)
     return boundaries_list
 
@@ -573,7 +573,7 @@ def construct_boundaries_from_mesh(mesh, visualization = False, relation=False, 
         save_boundaries_as_json(all_single_boundaries, vertices, normals, save_single_path)
     if save_relation_path !="":
         __save_point_cloud(dict_, save_relation_path) 
-    return all_boundaries_ordered, dict_
+    return all_boundaries_ordered, dict_, triangles
 
 
 # %%
@@ -587,4 +587,17 @@ if __name__ == "__main__":
     if relation:
         save_relation_path = './result_boundaries_and_holes.json'
     mesh = o3d.io.read_triangle_mesh(config['triangles_mesh_path'])
-    construct_boundaries_from_mesh(mesh, visualization = False, relation=relation, save_single_path=hole_file, save_relation_path=save_relation_path)
+    
+    # Start timing
+    start_time = time.time()
+
+    # Call the function
+    construct_boundaries_from_mesh(mesh, visualization = visualization, relation=relation, save_single_path=hole_file, save_relation_path=save_relation_path)
+
+    # End timing
+    end_time = time.time()
+
+    # Calculate runtime
+    runtime = end_time - start_time
+    print(f"The function ran for {runtime} seconds")
+
