@@ -1,16 +1,22 @@
-# hole-detection
+# Hole Detection
 
 ## Requirements
-`pip install numpy`  
-`pip install open3d`
+Install the necessary packages:
+```
+pip install numpy
+pip install open3d
+```
 
-## To use
-1. Put the path of your triangle mesh in the config.yml.
-2. Run `main_hole_detection.py`.
-3. Boundaries and holes will be saved in the current directory as json file.
-4. Use `main_visualizer.py` to visualizer detected boundareis and holes.
+## Usage Instructions
+1. Enter the path of your triangle mesh in `config.yml`.
+2. Execute `main_hole_detection.py`.
+3. The detected boundaries and holes will be saved as a JSON file in the current directory.
+4. Utilize `main_visualizer.py` to display the detected boundaries and holes.
 
-## Sample
-The sample data a cropped version of the bunny data in Open3D, aka the Stanford bunny mesh.
+## Sample Data
+The provided sample is a modified version of the Open3D Stanford bunny mesh.
 
-The detail of the method is discribed in https://arxiv.org/abs/2311.12466.
+For a detailed description of the method, visit [this link](https://arxiv.org/abs/2311.12466).
+
+## Known Issue
+A bug has been identified when extracting boundary edges from `stl` files using Open3D. To circumvent this, please convert `stl` files to `ply` format using Blender, and then proceed with our implementation for loading `ply` files.
