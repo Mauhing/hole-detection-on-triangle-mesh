@@ -588,6 +588,14 @@ if __name__ == "__main__":
         save_relation_path = './result_boundaries_and_holes.json'
     mesh = o3d.io.read_triangle_mesh(config['triangles_mesh_path'])
     
+    # Count the number of triangles
+    num_triangles = len(mesh.triangles)
+
+    o3d.visualization.draw_geometries([mesh])
+    print(type(mesh))
+
+    print("Number of triangles in the mesh:", num_triangles)
+
     # Start timing
     start_time = time.time()
 
@@ -600,4 +608,3 @@ if __name__ == "__main__":
     # Calculate runtime
     runtime = end_time - start_time
     print(f"The function ran for {runtime} seconds")
-

@@ -7,7 +7,17 @@ from pathlib import Path
 from typing import List
 import open3d as o3d
 from common import load_config, Boundary, boundary_to_lineset
-from main_hole_detection import get_length_of_boundary
+#from main_hole_detection import get_length_of_boundary
+from linemesh import LineMesh
+
+
+def get_length_of_boundary(boundary: Boundary):
+    location = boundary._locations
+    length = 0
+    for index in range(len(location)):
+        length += np.linalg.norm(location[(index+1)%len(location)] - location[index])
+    return length
+
 
 def load_json_data(json_file_path):
     with open(json_file_path, 'r') as j:
@@ -102,7 +112,16 @@ def visualize_nm_vertices(boundaries, mesh):
     geoms.append(pcl)
     o3d.visualization.draw_geometries(geoms, mesh_show_back_face=True)
 
-def visualize_simple_boundaries_and_mesh(boundaries, mesh):
+
+def boundary_to_linemesh(boundary: Boundary):
+    points = np.array(boundary._locations)
+    points = np.vstack((points, points[0]))
+    lines = LineMesh.lines_from_ordered_points(points)
+    lines = LineMesh(points, lines=lines, colors=np.array(boundary.colors()[0]), radius=0.002)
+    lines_geoms = lines.cylinder_segments
+    return lines_geoms
+
+def visualize_simple_boundaries_and_mesh(boundaries:List[Boundary], mesh):
     ''' Visualize_boundary_and_mesh
     '''
 
@@ -117,12 +136,17 @@ def visualize_simple_boundaries_and_mesh(boundaries, mesh):
     o3d.visualization.draw_geometries(geoms, mesh_show_back_face=True)
 
     geoms = []
-    for boundary in boundaries:
-        boundary_ = o3d.utility.Vector2iVector(boundary.edges)
-        #geoms.append(hole_pose(boundary, locations, normals))
-        geoms.append(edges_to_lineset(
-            mesh, boundary_, boundary.colors()))
+    for boundary in boundaries: 
+        geoms += boundary_to_linemesh(boundary)
+    geoms.append(mesh)
     o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
+
+    geoms = []
+    for boundary in boundaries: 
+        geoms += boundary_to_linemesh(boundary)
+    o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
+
+    print('The number of boundaries', len(boundaries))
 
 def visualize_boundaries_and_mesh(list_of_regions, mesh):
     ''' Visualize_boundary_and_mesh
@@ -148,7 +172,7 @@ def visualize_boundaries_and_mesh(list_of_regions, mesh):
     o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
 
 
-def visualize_one_by_one(list_of_regions, mesh): 
+def visualize_one_by_one(list_of_regions, mesh, stop_at=2): 
     mesh.compute_vertex_normals()
     o3d.visualization.draw_geometries([mesh], mesh_show_back_face=False)
     for index, region in enumerate( list_of_regions):
@@ -157,42 +181,40 @@ def visualize_one_by_one(list_of_regions, mesh):
         local_mesh = copy.deepcopy(mesh)
         local_mesh.triangles = o3d.utility.Vector3iVector(main_triangles)
         local_mesh.compute_vertex_normals()
-        
-        geoms = []
-        for boundary in boundaries:
-            boundary_ = o3d.utility.Vector2iVector(boundary.edges)
-            #geoms.append(hole_pose(boundary))
-            geoms.append(edges_to_lineset(
-                mesh, boundary_, boundary.colors()))
-        print(f'Coastline number {index +1}')
-        o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
 
+        print("Lenght of main boundary", get_length_of_boundary(main_boundary))
+        
         geoms = [local_mesh]
         for boundary in boundaries:
             boundary_ = o3d.utility.Vector2iVector(boundary.edges)
             geoms.append(edges_to_lineset(
                 mesh, boundary_, boundary.colors()))
         print(f'The continent of coastline number {index +1}')
+
+        o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
+        geoms = []
+        for boundary in boundaries:
+            geoms += boundary_to_linemesh(boundary)
+        print(f'Coastline number {index +1}')
         o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
 
         geoms = []
         for boundary in tide_list + [main_boundary]:
-            boundary_ = o3d.utility.Vector2iVector(boundary.edges)
-            geoms.append(edges_to_lineset(
-                mesh, boundary_, boundary.colors()))
+            geoms += boundary_to_linemesh(boundary)
         print(f"The tide-hole(s) with of coastline number {index +1}")
+        print(f"The number of tide holes {len(tide_list)}")
         o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
 
         geoms = []
         for boundary in lake_list + [main_boundary]:
-            boundary_ = o3d.utility.Vector2iVector(boundary.edges)
-            geoms.append(edges_to_lineset(
-                mesh, boundary_, boundary.colors()))
+            geoms += boundary_to_linemesh(boundary)
         print(f"The lake-hole(s) with of coastline number {index + 1}")
+        print(f"The number of lake holes {len(lake_list)}")
         o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
-        if index == 2:
+        if index == stop_at:
             print('Break, we only show the first three')
             break
+        print('=='*8)
     
 
 if __name__ == "__main__":
@@ -218,4 +240,4 @@ if __name__ == "__main__":
     if show_relations:
         json_file_path = Path('./result_boundaries_and_holes.json')
         list_of_regions = load_json_data(json_file_path)
-        visualize_one_by_one(list_of_regions, mesh) 
+        visualize_one_by_one(list_of_regions, mesh, stop_at=999999) 
