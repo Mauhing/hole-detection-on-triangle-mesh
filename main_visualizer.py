@@ -137,13 +137,19 @@ def visualize_simple_boundaries_and_mesh(boundaries:List[Boundary], mesh):
 
     geoms = []
     for boundary in boundaries: 
-        geoms += boundary_to_linemesh(boundary)
+        #geoms += boundary_to_linemesh(boundary)
+        boundary_ = o3d.utility.Vector2iVector(boundary.edges)
+        geoms.append(edges_to_lineset(
+            mesh, boundary_, boundary.colors()))
     geoms.append(mesh)
     o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
 
     geoms = []
     for boundary in boundaries: 
-        geoms += boundary_to_linemesh(boundary)
+        #geoms += boundary_to_linemesh(boundary)
+        boundary_ = o3d.utility.Vector2iVector(boundary.edges)
+        geoms.append(edges_to_lineset(
+            mesh, boundary_, boundary.colors()))
     o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
 
     print('The number of boundaries', len(boundaries))
@@ -194,20 +200,29 @@ def visualize_one_by_one(list_of_regions, mesh, stop_at=2):
         o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
         geoms = []
         for boundary in boundaries:
-            geoms += boundary_to_linemesh(boundary)
+            #geoms += boundary_to_linemesh(boundary)
+            boundary_ = o3d.utility.Vector2iVector(boundary.edges)
+            geoms.append(edges_to_lineset(
+                mesh, boundary_, boundary.colors()))
         print(f'Coastline number {index +1}')
         o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
 
         geoms = []
         for boundary in tide_list + [main_boundary]:
-            geoms += boundary_to_linemesh(boundary)
+            #geoms += boundary_to_linemesh(boundary)
+            boundary_ = o3d.utility.Vector2iVector(boundary.edges)
+            geoms.append(edges_to_lineset(
+                mesh, boundary_, boundary.colors()))
         print(f"The tide-hole(s) with of coastline number {index +1}")
         print(f"The number of tide holes {len(tide_list)}")
         o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
 
         geoms = []
         for boundary in lake_list + [main_boundary]:
-            geoms += boundary_to_linemesh(boundary)
+            #geoms += boundary_to_linemesh(boundary)
+            boundary_ = o3d.utility.Vector2iVector(boundary.edges)
+            geoms.append(edges_to_lineset(
+                mesh, boundary_, boundary.colors()))
         print(f"The lake-hole(s) with of coastline number {index + 1}")
         print(f"The number of lake holes {len(lake_list)}")
         o3d.visualization.draw_geometries(geoms, mesh_show_back_face=False)
