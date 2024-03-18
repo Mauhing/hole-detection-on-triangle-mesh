@@ -28,15 +28,15 @@ coastline:
 |- locations:[? x 3] (x, y, z)  
 |- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
 tide:  
-|- 0  
-|  |- indices:  [vertices indices]  
-|  |- locations:[? x 3] (x, y, z)  
-|  |- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
+| - 0  
+|   | - indices:  [vertices indices]  
+|   | - locations:[? x 3] (x, y, z)  
+|   | - normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
 |  
 .  
 .  
 .  
-|- k  
+| - k  
    |- indices:  [vertices indices]  
    |- locations:[? x 3] (x, y, z)  
    |- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
