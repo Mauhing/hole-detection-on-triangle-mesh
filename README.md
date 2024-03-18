@@ -37,7 +37,7 @@ tide:
 .  
 .  
 .  
-| - k  
+| - ?  
    | - indices:  [vertices indices]  
    | - locations:[? x 3] (x, y, z)  
    | - normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
@@ -50,7 +50,7 @@ lake:
 .  
 .  
 .  
-| - q  
+| - ?  
     | - indices:  [vertices indices]  
     | - locations:[? x 3] (x, y, z)  
     | - normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
