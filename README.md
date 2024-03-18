@@ -23,7 +23,7 @@ It contains [ Region1, Region2, ...]
 
 For each region, we have 
 ```
-continent:[ m x 3] (triangle indices)  
+continent:[ ? x 3] (triangle indices)  
 coastline:  
 | - indices:  [vertices indices]  
 | - locations:[? x 3] (x, y, z)  
