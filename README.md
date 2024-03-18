@@ -26,33 +26,33 @@ continent:[ m x 3] (triangle indices)
 coastline:  
 |- indices:  [vertices indices]  
 |- locations:[? x 3] (x, y, z)  
-|- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)
-tide:
-|- 0
-|  |- indices:  [vertices indices]
-|  |- locations:[? x 3] (x, y, z)
-|  |- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)
-|
-.
-.
-.
-|- k
-   |- indices:  [vertices indices]
-   |- locations:[? x 3] (x, y, z)
-   |- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)
-lake:
-|- 0
-|  |- indices:  [vertices indices]
-|  |- locations:[? x 3] (x, y, z)
-|  |- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)
-|
-.
-.
-.
-|- q
-   |- indices:  [vertices indices]
-   |- locations:[? x 3] (x, y, z)
-   |- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)
+|- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
+tide:  
+|- 0  
+|  |- indices:  [vertices indices]  
+|  |- locations:[? x 3] (x, y, z)  
+|  |- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
+|  
+.  
+.  
+.  
+|- k  
+   |- indices:  [vertices indices]  
+   |- locations:[? x 3] (x, y, z)  
+   |- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
+lake:  
+|- 0  
+|  |- indices:  [vertices indices]  
+|  |- locations:[? x 3] (x, y, z)  
+|  |- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
+|  
+.  
+.  
+.  
+|- q  
+   |- indices:  [vertices indices]  
+   |- locations:[? x 3] (x, y, z)  
+   |- normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
    
 ## Known Issue
 A bug has been identified when extracting boundary edges from `stl` files using Open3D. To circumvent this, please convert `stl` files to `ply` format using Blender, and then proceed with our implementation for loading `ply` files.
