@@ -21,7 +21,8 @@ For a detailed description of the method, visit [this link](https://arxiv.org/ab
 ## Explanation of the result_boundaries_and_holes.json  
 It contains [ Region1, Region2, ...]  
 
-For each region, we have  
+For each region, we have 
+```
 continent:[ m x 3] (triangle indices)  
 coastline:  
 | - indices:  [vertices indices]  
@@ -53,7 +54,7 @@ lake:
     | - indices:  [vertices indices]  
     | - locations:[? x 3] (x, y, z)  
     | - normals:  [? x 3] (n_x, n_y, n_x) (Estimated normals)  
-
+```
 It shares the global coordinate as your triangle mesh.
     
 ## Known Issue
