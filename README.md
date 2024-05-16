@@ -16,7 +16,7 @@ pip install open3d
 ## Sample Data
 The provided sample is a modified version of the Open3D Stanford bunny mesh.
 
-For a detailed description of the method, visit [this link](https://arxiv.org/abs/2311.12466).
+For a detailed description of the method, visit [this link](https://www.sciencedirect.com/science/article/pii/S001044852400023X).
 
 ## Explanation of the result_boundaries_and_holes.json  
 It contains [ Region1, Region2, ...]  
