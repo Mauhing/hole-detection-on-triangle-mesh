@@ -1,9 +1,16 @@
-triangles_mesh_path: './sample/patch_of_bunny.ply'
+#triangles_mesh_path: './sample/patch_of_bunny.ply'
+#triangles_mesh_path: './jupyter_nb/data_bunny_half_manuel_holes.ply'
+#triangles_mesh_path: './reviewer_actions/door_hinge.ply'
+#triangles_mesh_path: './mbes_data/figaro/figaro_bpa_mesh.ply'
+#triangles_mesh_path: './used_data_pub/patch_of_bunny.ply'
+#triangles_mesh_path: './used_data_pub/data_bunny_half_manuel_holes.ply'
+triangles_mesh_path: './used_data_pub/door_hinge.ply'
 
 hole_detection:
   calculate_relation: True
+  #calculate_relation: False
   show_singular_vertices: True
 
 visualizer: 
-  show_all_boundaries: False
+  show_all_boundaries: True
   show_relations: True
