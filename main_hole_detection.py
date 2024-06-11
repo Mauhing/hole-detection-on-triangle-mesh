@@ -8,6 +8,7 @@ import open3d as o3d
 from pathlib import Path
 from typing import List
 from common import load_config, Boundary, create_folder
+import orientation
 
 
 def get_pcd_path(file_path):
@@ -298,8 +299,8 @@ def choose_model_boundary_with_max_length(boundaries_ordered: List[Boundary], ve
     return main_boundary, other_boundaries
 
 
-def create_different_colors(boundaries: List[np.ndarray]):
-    return np.random.uniform(size=(len(boundaries), 3)).tolist()
+#def create_different_colors(boundaries: List[np.ndarray]):
+#    return np.random.uniform(size=(len(boundaries), 3)).tolist()
 
 
 def triangles_have_the_edge(edge: np.ndarray, triangles: np.ndarray):
@@ -321,7 +322,7 @@ def find_lake_holes(main_triangles: np.ndarray, remaining_boundaries_ordered: Li
     return lake_holes, new_remaining_boundaries_ordered
 
 
-def find_holes(main_triangles: np.ndarray, remaining_boundaries_ordered: List[Boundary]):
+def find_holes(main_triangles: np.ndarray, remaining_boundaries_ordered: List[Boundary]) -> tuple[List[Boundary], Boundary] :
     holes = list()
     new_remaining_boundaries_ordered = list()
     for boundary in remaining_boundaries_ordered:
@@ -345,7 +346,7 @@ def classify_holes(main_boundary: Boundary, holes: List[Boundary]):
             lake_holes.append(hole)
     return tide_holes, lake_holes
 
-    
+
 def find_main_triangles(triangles: np.ndarray, main_boundary_ordered: Boundary):
     """
     This methods use triangles
@@ -552,9 +553,15 @@ def construct_boundaries_from_mesh(mesh, visualization = False, relation=False, 
             holes_, remaining_boundaries_ordered = find_holes(
                 main_triangles, remaining_boundaries_ordered)
 
+            locations = vertices
+
+            orientation_if = True
+            if orientation_if:
+                [hole.set_boundary_edges(triangles, locations, normals) for hole in holes_]
+                [hole.check_orientation() for hole in holes_]
+
             tide_pool_holes, lake_holes = classify_holes(main_boundary_ordered, holes_)
 
-            locations = vertices
 
             mesh_temp = copy.deepcopy(mesh)
             mesh_temp.triangles = o3d.utility.Vector3iVector(main_triangles)
