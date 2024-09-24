@@ -580,7 +580,7 @@ def construct_boundaries_from_mesh(mesh, visualization = False, relation=False, 
         save_boundaries_as_json(all_single_boundaries, vertices, normals, save_single_path)
     if save_relation_path !="":
         __save_point_cloud(dict_, save_relation_path) 
-    return all_boundaries_ordered, dict_, triangles
+    return all_boundaries_ordered, dict_, triangles, vertices, normals
 
 
 # %%

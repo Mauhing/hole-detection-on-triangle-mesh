@@ -130,6 +130,19 @@ class Boundary:
         #self._normals = normals[self.vertices] 
         self._normals = normals
 
+    def set_length(self):
+        length = 0
+        tot_points, _ = self._locations.shape
+        for i in range(tot_points):
+            length += np.linalg.norm(self._locations[(i+1)%tot_points]-self._locations[i,:])
+        self.length = length
+        
+    def get_length(self):
+        if self.length > -1.0:
+            return self.length
+        self.set_length()
+        return self.length
+
     def set_boundary_edges(self, full_triangles: np.ndarray, full_locations: np.ndarray, full_normals: np.ndarray):
         boundary_edges = []
         for edge in self.edges:  
