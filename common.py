@@ -123,10 +123,12 @@ class Boundary:
     #    self._normals = np.array(normals)
 
     def set_locations(self, locations:List[List[float]]):
-        self._locations = locations[self.vertices]
+        #self._locations = locations[self.vertices]
+        self._locations = locations
 
     def set_normals(self, normals:List[List[float]]):
-        self._normals = normals[self.vertices] 
+        #self._normals = normals[self.vertices] 
+        self._normals = normals
 
     def set_boundary_edges(self, full_triangles: np.ndarray, full_locations: np.ndarray, full_normals: np.ndarray):
         boundary_edges = []

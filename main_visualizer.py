@@ -12,7 +12,7 @@ from linemesh import LineMesh
 
 
 def get_length_of_boundary(boundary: Boundary):
-    location = boundary._locations
+    location = np.array(boundary._locations)
     length = 0
     for index in range(len(location)):
         length += np.linalg.norm(location[(index+1)%len(location)] - location[index])

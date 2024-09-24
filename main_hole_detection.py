@@ -8,7 +8,7 @@ import open3d as o3d
 from pathlib import Path
 from typing import List
 from common import load_config, Boundary, create_folder
-import orientation
+#import orientation
 
 
 def get_pcd_path(file_path):
