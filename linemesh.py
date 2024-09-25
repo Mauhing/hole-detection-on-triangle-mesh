@@ -110,6 +110,16 @@ class LineMesh(object):
         for cylinder in self.cylinder_segments:
             vis.remove_geometry(cylinder)
 
+    @classmethod
+    def lineset_to_linemesh(cls, lineset, radius=0.2):
+        """Converts a LineSet to a LineMesh"""
+        points = np.asarray(lineset.points)
+        lines = np.asarray(lineset.lines)
+        colors = np.asarray(lineset.colors)
+        line_mesh = cls(points, lines, colors, radius)
+        line_mesh.create_line_mesh()
+        return line_mesh
+
 
 def main():
     print("Demonstrating LineMesh vs LineSet")
@@ -140,8 +150,19 @@ def main():
     line_mesh3 = LineMesh(points, lines3, radius=0.04)
     line_mesh3_geoms = line_mesh3.cylinder_segments
 
+
+    # Create a new line set with +2 shift in z
+    new_points = np.array(points) + [0, 0, 2]
+    new_line_set = o3d.geometry.LineSet()
+    new_line_set.points = o3d.utility.Vector3dVector(new_points)
+    new_line_set.lines = o3d.utility.Vector2iVector(lines)
+    new_line_set.colors = o3d.utility.Vector3dVector(colors)
+
+    line_mesh4 = LineMesh.lineset_to_linemesh(new_line_set, radius=0.03)
+    line_mesh4_geoms = line_mesh4.cylinder_segments
+    
     o3d.visualization.draw_geometries(
-        [line_set, *line_mesh3_geoms])
+        [line_set, *line_mesh4_geoms])
 
 
 if __name__ == "__main__":
