@@ -7,8 +7,7 @@ import numpy as np
 import open3d as o3d
 from pathlib import Path
 from typing import List
-from common import load_config, Boundary, create_folder
-#import orientation
+from hole_detection.common import load_config, Boundary, create_folder
 
 
 def get_pcd_path(file_path):
